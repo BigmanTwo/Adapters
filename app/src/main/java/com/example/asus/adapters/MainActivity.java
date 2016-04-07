@@ -1,40 +1,44 @@
 package com.example.asus.adapters;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.view.View;
+import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-private List<Map<String,Object>> mList;
-    private ListView mListView;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private Button mButton1,mButton2,mButton3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mList=new ArrayList<>();
-        for(int i=0;i<50;i++){
-//            String str="第"+i+"条数据";
-//            mList.add(str);
-            Map<String,Object> map=new HashMap<>();
-            map.put("icon",R.mipmap.ic_launcher);
-            map.put("text","第"+i+"条数据");
-            mList.add(map);
+        mButton1= (Button) findViewById(R.id.but1);
+        mButton1.setOnClickListener(this);
+        mButton2= (Button) findViewById(R.id.but2);
+        mButton2.setOnClickListener(this);
+        mButton3= (Button) findViewById(R.id.but3);
+        mButton3.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent();
+        switch (v.getId()){
+            case R.id.but1:
+            intent.setComponent(new ComponentName(MainActivity.this,AdapterArray.class));
+                startActivity(intent);
+                break;
+            case R.id.but2:
+                intent.setComponent(new ComponentName(MainActivity.this,SimpleActivity.class));
+                startActivity(intent);
+                break;
+            case R.id.but3:
+                intent.setComponent(new ComponentName(MainActivity.this,BaseActivity.class));
+                startActivity(intent);
+                break;
         }
-        mListView= (ListView) findViewById(R.id.list1);
-//        ArrayAdapter<String> adapater=new ArrayAdapter<String>(this,
-//                android.R.layout.simple_expandable_list_item_1,
-//                mList);
-        SimpleAdapter adapater=new SimpleAdapter(this,mList,R.layout.list_item,
-                new String[]{"icon","text"},
-        new int[]{R.id.text_image,R.id.text_view});
-        mListView.setAdapter(adapater);
     }
 }
